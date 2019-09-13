@@ -1,0 +1,16 @@
+{
+  "name": "match-game",
+  "version": "1.0.0",
+  "description": "Phaser Electron game project for my meetup presentation/talk",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron index.js"
+  },
+  "author": "logan trecartin",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^6.0.9",
+    "phaser": "^3.19.0"
+  }
+}
