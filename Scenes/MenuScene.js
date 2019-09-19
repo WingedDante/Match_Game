@@ -8,6 +8,7 @@ class MenuScene extends Phaser.Scene{
         this.add.text(200, 500, 'Menu Scene', { fill: '#ffffff' });
         this.input.on('pointerdown', () => {
             this.scene.start(game_scene);
+            this.scene.stop(menu_scene);
         });
     }
 }
