@@ -11,8 +11,10 @@ var config = {
     width: 800,
     height: 600,
     parent: 'match-game',
-    scene: [menu_scene, game_scene, game_over_scene]
+    scene: [  game_over_scene, game_scene, menu_scene]
 };
 
 var game = new Phaser.Game(config);
+
+
 
