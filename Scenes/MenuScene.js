@@ -1,21 +1,14 @@
 class MenuScene extends Phaser.Scene{
     constructor ()
     {
-        super('menuScene');
+        super();
     }
     create ()
     {
-        
-
-        const rotateButton = this.add.text(200, 500, 'Menu Scene', { fill: '#ffffff' });
-        // .setInteractive()
+        this.add.text(200, 500, 'Menu Scene', { fill: '#ffffff' });
         this.input.on('pointerdown', () => {
-            console.log('click');
             this.scene.start(game_scene);
         });
-    }
-    update ()
-    {
     }
 }
 
