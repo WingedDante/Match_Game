@@ -1,19 +1,17 @@
 class GameScene extends Phaser.Scene {
 
     cardsUnshuffled = [];
-    cards = [];
 
     faces = ['RedGem', 'BlueGem', 'GreenGem', 'LavenderGem', 'LightBlueGem', 'OrangeGem', 'PinkGem', 'PurpleGem', 'TealGem', 'YellowGem']
-    CARD_COUNT = 20;
 
     card1 = null;
-    card2 = null;
 
     matches = 0;
 
     constructor() {
         super();
     }
+
     create() {
         this.matches = 0;
         this.card1 = null;
@@ -23,7 +21,6 @@ class GameScene extends Phaser.Scene {
             this.cardsUnshuffled.push({ face: this.faces[index], back: 'Back' });
             this.cardsUnshuffled.push({ face: this.faces[index], back: 'Back' });
         }
-
         this.cardsUnshuffled = this.shuffle(this.cardsUnshuffled);
 
         let counter = 0;
@@ -34,18 +31,11 @@ class GameScene extends Phaser.Scene {
                 card.faceUp = false;
 
                 card.setScale(.6);
-
                 card.setInteractive()
                     .on('clicked', this.clickHandler, this);
-
-                this.cards.push(card);
-
-
                 counter++;
             }
-
         }
-
         this.input.on('gameobjectup', function (pointer, gameObject) {
             gameObject.emit('clicked', gameObject);
         }, this);
@@ -64,82 +54,58 @@ class GameScene extends Phaser.Scene {
         this.load.image('YellowGem', 'Cards/YellowGemCard.png');
 
         this.load.image('Back', 'Cards/CardBack.png');
-
-
-
     }
 
     shuffle = function (array) {
-
         var currentIndex = array.length;
         var temporaryValue, randomIndex;
-
         // While there remain elements to shuffle...
         while (0 !== currentIndex) {
             // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex -= 1;
-
             // And swap it with the current element.
             temporaryValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
             array[randomIndex] = temporaryValue;
         }
-
         return array;
-
     };
 
     clickHandler = function (card) {
-        console.log(card.front);
-        if (this.card1)
-        console.log(this.card1.front);
-
-        if (!card.matched ) {
-
-            if (!card.faceUp) {
-                this.flipToFront(card);
-                card.faceUp = true;
-            }
-
-            if (!this.card1) {
-                this.card1 = card;
-            }
-            else if (card === this.card1){
-
-            }
-            else {
-
-                if (this.card1.front === card.front) {
-                    this.card1.matched = true;
-                    card.matched = true;
-
-                    this.matches++;
-                    this.card1 = null;
-
-                    if (this.matches >= 10){
-                        setTimeout(()=>{
-                            this.scene.start(game_over_scene);
-                            this.scene.stop(game_scene);
-                        }, 5000);
-                        
+            if (!card.matched) {
+                if (!card.faceUp) {
+                    this.flipToFront(card);
+                    card.faceUp = true;
+                }
+                if (!this.card1) {
+                    this.card1 = card;
+                }
+                else if (card === this.card1) {
+                    //Do nothing
+                }
+                else {
+                    if (this.card1.front === card.front) {
+                        this.card1.matched = true;
+                        card.matched = true;
+                        this.matches++;
+                        this.card1 = null;
+                        if (this.matches >= 10) {
+                            setTimeout(() => {
+                                this.scene.start(game_over_scene);
+                                this.scene.stop(game_scene);
+                            }, 5000);
+                        }
                     }
-                    
+                    else {
+                        this.flipToBack(this.card1);
+                        this.card1.faceUp = false;
+                        this.flipToBack(card);
+                        card.faceUp = false;
+                        this.card1 = null;
+                    }
                 }
-                else{
-                    this.flipToBack(this.card1);
-                    this.card1.faceUp = false;
-                    this.flipToBack(card);
-                    card.faceUp = false;
-                    this.card1 = null;
-
-                }
-
             }
-        }
-
-
-
     }
 
     flipToBack = function (card) {
@@ -168,8 +134,6 @@ class GameScene extends Phaser.Scene {
     }
 
     flipToFront = function (card) {
-        // console.log(card.front);
-
         this.tweens.add({
             targets: card,
             scaleX: 0,
