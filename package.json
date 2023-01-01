@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "electron": "^6.0.9",
-    "phaser": "^3.19.0"
+    "phaser": "^3.55.2"
   }
 }
